@@ -10,6 +10,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Scanner;
 import java.util.TimeZone;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
@@ -18,18 +19,19 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 public class ExampleTest {
 
     private final PrintStream originalOut = System.out;
-    private final InputStream originalIn = System.in;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    private Main main;
 
     @DisplayName("2022-10-23 14:15:51")
     @Test
     void shouldWorkForExerciseExample() {
         // given
 
-        provideInput("2022-10-23 14:15:51");
+        Scanner scanner = provideInput("2022-10-23 14:15:51");
 
         // when
-        Main.main(new String[]{});
+        main.run(scanner);
 
         // then
         assertThat(outContent.toString()).contains("Czas lokalny: 2022-10-23 14:15:51");
@@ -43,10 +45,10 @@ public class ExampleTest {
     @Test
     void shouldWorkForOtherPatternInput() {
         // given
-        provideInput("2022-10-23 10:00:00");
+        Scanner scanner = provideInput("2022-10-23 10:00:00");
 
         // when
-        Main.main(new String[]{});
+        main.run(scanner);
 
         // then
         assertThat(outContent.toString()).contains("Czas lokalny: 2022-10-23 10:00:00");
@@ -60,10 +62,10 @@ public class ExampleTest {
     @Test
     void shouldWorkForWithoutHour() {
         // given
-        provideInput("2022-10-23");
+        Scanner scanner = provideInput("2022-10-23");
 
         // when
-        Main.main(new String[]{});
+        main.run(scanner);
 
         // then
         assertThat(outContent.toString()).contains("Czas lokalny: 2022-10-23 00:00:00");
@@ -77,10 +79,10 @@ public class ExampleTest {
     @Test
     void shouldWorkForOtherFormat() {
         // given
-        provideInput("05.12.2015 22:00:00");
+        Scanner scanner = provideInput("05.12.2015 22:00:00");
 
         // when
-        Main.main(new String[]{});
+        main.run(scanner);
 
         // then
         assertThat(outContent.toString()).contains("Czas lokalny: 2015-12-05 22:00:00");
@@ -100,15 +102,14 @@ public class ExampleTest {
     @AfterEach
     void cleanup() {
         System.setOut(originalOut);
-        System.setIn(originalIn);
     }
 
-    private void provideInput(String... lines) {
+    private Scanner provideInput(String... lines) {
         String input = String.join("\r\n", lines);
         input += "\r\n";
 
         ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
+        return new Scanner(testIn);
     }
 
 }
