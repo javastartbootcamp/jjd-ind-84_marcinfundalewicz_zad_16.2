@@ -10,6 +10,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.TimeZone;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -24,6 +25,7 @@ public class ExampleTest {
     @Test
     void shouldWorkForExerciseExample() {
         // given
+
         provideInput("2022-10-23 14:15:51");
 
         // when
@@ -82,7 +84,7 @@ public class ExampleTest {
 
         // then
         assertThat(outContent.toString()).contains("Czas lokalny: 2015-12-05 22:00:00");
-        assertThat(outContent.toString()).contains("2015-12-05 21:00:00");
+        assertThat(outContent.toString()).contains("UTC: 2015-12-05 21:00:00");
         assertThat(outContent.toString()).contains("Londyn: 2015-12-05 21:00:00");
         assertThat(outContent.toString()).contains("Los Angeles: 2015-12-05 13:00:00");
         assertThat(outContent.toString()).contains("Sydney: 2015-12-06 08:00:00");
@@ -91,6 +93,7 @@ public class ExampleTest {
 
     @BeforeEach
     void init() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Warsaw"));
         System.setOut(new PrintStream(outContent));
     }
 
