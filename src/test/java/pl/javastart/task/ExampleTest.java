@@ -21,7 +21,7 @@ public class ExampleTest {
     private final PrintStream originalOut = System.out;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
-    private Main main;
+    private Main main = new Main();
 
     @DisplayName("2022-10-23 14:15:51")
     @Test
