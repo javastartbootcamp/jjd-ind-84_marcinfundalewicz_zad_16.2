@@ -20,9 +20,8 @@ public class ExampleTest {
 
     private final PrintStream originalOut = System.out;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-
-    private Main main = new Main();
-
+    private Main main;
+    
     @DisplayName("2022-10-23 14:15:51")
     @Test
     void shouldWorkForExerciseExample() {
@@ -96,6 +95,7 @@ public class ExampleTest {
     @BeforeEach
     void init() {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Warsaw"));
+        main = new Main();
         System.setOut(new PrintStream(outContent));
     }
 
